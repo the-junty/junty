@@ -3,8 +3,8 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-use Gabrieljmj\Junty\RunnerInterface;
-use Gabrieljmj\Junty\Console\Command\RunCommand;
+use Junty\RunnerInterface;
+use Junty\Console\Command\RunCommand;
 use Symfony\Component\Console\Application;
 
 if (!file_exists($runnerPath = __DIR__ . '/../juntyfile.php')) {
