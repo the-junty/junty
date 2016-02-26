@@ -1,13 +1,13 @@
 #!/usr/bin/env php
 
 <?php
-require __DIR__ . '/../vendor/autoload.php';
+require 'vendor/autoload.php';
 
 use Junty\RunnerInterface;
 use Junty\Console\Command\RunCommand;
 use Symfony\Component\Console\Application;
 
-if (!file_exists($runnerPath = __DIR__ . '/../juntyfile.php')) {
+if (!file_exists($runnerPath = 'juntyfile.php')) {
     throw new \Exception('\'juntyfile.php\' not found.');
 }
 
