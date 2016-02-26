@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+
+<?php
+require __DIR__ . '/../vendor/autoload.php';
+
+use Gabrieljmj\Junty\RunnerInterface;
+use Gabrieljmj\Junty\Console\Command\RunCommand;
+use Symfony\Component\Console\Application;
+
+if (!file_exists($runnerPath = __DIR__ . '/../juntyfile.php')) {
+    throw new \Exception('\'juntyfile.php\' not found.');
+}
+
+$runner = require $runnerPath;
+
+if (!$runner instanceof RunnerInterface) {
+    throw new \Exception('\'juntyfile.php\' must return a RunnerInterface instance.');
+}
+
+$app = new Application();
+$app->add(new RunCommand($runner));
+$app->run();
