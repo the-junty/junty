@@ -15,8 +15,8 @@ Create a file called ```junty.php``` returning the ```Runner``` instance.
 <?php
 require 'vendor/autoload.php';
 
-use Gabrieljmj\Junty\Runner;
-use Gabrieljmj\Junty\Stream\Stream;
+use Junty\Runner;
+use Junty\Stream\Stream;
 
 $junty = new Runner();
 
@@ -40,9 +40,9 @@ $junty->task('copy_php_files', function () {
 ```
 
 #### ```class```
-Class must implements ```Gabrieljmj\Junty\TaskInterface``` or extends ```Gabrieljmj\Junty\AbstractTask```.
+Class must implements ```Junty\TaskInterface``` or extends ```Junty\AbstractTask```.
 ```php
-use Gabrieljmj\Junty\AbstractTask;
+use Junty\AbstractTask;
 
 $junty->task(new class() extends AbstractTrask
 {
@@ -133,6 +133,11 @@ Put all streammed files on a certain directory.
 ```php
 $this->src('*.php')
     ->forStreams($this->toDir('php_files')); // Copy all files to php_files
+```
+
+## Running
+```bash
+$ vendor/bin/junty run
 ```
 
 ## Usage exmaple
