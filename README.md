@@ -22,7 +22,7 @@ $junty = new Runner();
 
 //... tasks
 
-return $tasker;
+return $junty;
 ```
 
 ### Creting a task
