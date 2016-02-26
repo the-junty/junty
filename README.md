@@ -1,6 +1,6 @@
 Junty
 =========
-Run tasks for handle streams. Inspired by [Gulp](gulpjs.com).
+Streams handling with tasks for PHP 7. Inspired by [<img src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png" height="30px" align="center" title="Gulp" alt="Gulp">](http://gulpjs.com)
 
 ## Install
 Run
@@ -25,8 +25,8 @@ $junty = new Runner();
 return $junty;
 ```
 
-### Creting a task
-Tasks can be create in two ways: ```function``` and a ```class```.
+### Creating a task
+Tasks can be created in two ways: ```function``` and a ```class```.
 
 #### ```function```
 ```php
