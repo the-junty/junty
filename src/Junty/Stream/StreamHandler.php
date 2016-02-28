@@ -12,7 +12,7 @@ use Psr\Http\Message\StreamInterface;
 use GuzzleHttp\Psr7;
 use Junty\Stream\Stream;
 use Junty\Plugin\PluginInterface;
-use JuntyToDir\ToDirPlugin;
+use Junty\ToDir\ToDirPlugin;
 
 class StreamHandler
 {
