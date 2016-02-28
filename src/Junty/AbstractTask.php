@@ -30,7 +30,7 @@ abstract class AbstractTask implements TaskInterface
     public function runAfter($task) : self
     {
         if (!is_string($task) && !is_array($task)) {
-            throw new \InvalidArgumentException('Pass an array with the tasks or ');
+            throw new \InvalidArgumentException('Pass an array with the tasks or a single one.');
         }
 
         is_string($task) ? $this->next[] = $task : $this->next = array_merge($this->next, $task);

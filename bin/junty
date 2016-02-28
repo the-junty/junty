@@ -6,15 +6,16 @@ require 'vendor/autoload.php';
 use Junty\RunnerInterface;
 use Junty\Console\Command\RunCommand;
 use Symfony\Component\Console\Application;
+use Junty\Exception\JuntyException;
 
 if (!file_exists($runnerPath = 'juntyfile.php')) {
-    throw new \Exception('\'juntyfile.php\' not found.');
+    throw JuntyException::juntyFileNotFound();
 }
 
 $runner = require $runnerPath;
 
 if (!$runner instanceof RunnerInterface) {
-    throw new \Exception('\'juntyfile.php\' must return a RunnerInterface instance.');
+    throw JuntyException::invalidJuntyFileReturn();
 }
 
 $app = new Application();

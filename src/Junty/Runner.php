@@ -10,6 +10,7 @@ namespace Junty;
 
 use Junty\{Task, TaskInterface, RunnerInterface};
 use Junty\Stream\StreamHandler;
+use Junty\Exception\JuntyException;
 
 class Runner implements RunnerInterface
 {
@@ -50,7 +51,7 @@ class Runner implements RunnerInterface
     {
         foreach ($tasks as $task) {
             if (!$this->tasks[$task]) {
-                throw new Exception('Task not registred: ' + $task);
+                throw JuntyException::taskNotRegistred($task);
             }
         }
 
@@ -77,12 +78,12 @@ class Runner implements RunnerInterface
     public function runTask($task)
     {
         if (!is_string($task) && !$task instanceof TaskInterface) {
-            throw new \Exception('Invalid task');
+            throw JuntyException::invalidTaskType();
         }
 
         if (is_string($task)) {
             if (!isset($this->tasks[$task])) {
-                throw new \Exception('Task not registred: ' + $task);
+                throw JuntyException::taskNotRegistred($task);
             }
         }
 

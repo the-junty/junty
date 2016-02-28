@@ -1,11 +1,4 @@
-<?php
-/**
- * Junty
- *
- * @author Gabriel Jacinto aka. GabrielJMJ <gamjj74@hotmail.com>
- * @license MIT License
- */
- 
+<?php 
 /**
  * Junty
  *
@@ -146,9 +139,15 @@ class StreamHandler
 
     /**
      * Cleans up pushed streams
+     *
+     * @return self
      */
     public function end() : self
     {
+        foreach ($this->toPush as $stream) {
+            $stream->close();
+        }
+
         $this->toPush = [];
         return $this;
     }

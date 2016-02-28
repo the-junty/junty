@@ -25,6 +25,16 @@ class Stream extends GuzzleStream
     }
 
     /**
+     * Updates the stream contents
+     */
+    public function save()
+    {
+        $stream = new self(fopen($this->getMetaData('uri', 'w')));
+        $stream->write($this->contents);
+        $stream->close();
+    }
+
+    /**
      * If the contents is setted, return it
      *
      * @return string
