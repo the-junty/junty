@@ -10,7 +10,7 @@ $ composer require --dev junty/junty
 
 ## Usage
 ### Instance
-Create a file called ```junty.php``` returning the ```Runner``` instance.
+Create a file called ```juntyfile.php``` returning the ```Runner``` instance.
 ```php
 <?php
 require 'vendor/autoload.php';
@@ -35,7 +35,7 @@ $junty->task('copy_php_files', function () {
         ->forStream(function (Stream $stream) {
             $this->push($stream);
         })
-        ->forStreams($this->toDir('php_files'))
+        ->forStreams($this->toDir('php_files'));
 });
 ```
 
@@ -133,6 +133,21 @@ Put all streammed files on a certain directory.
 ```php
 $this->src('*.php')
     ->forStreams($this->toDir('php_files')); // Copy all files to php_files
+```
+
+#### ```Stream::setContents```
+Updates the contents of a stream.
+```php
+->forStream(function (Stream $stream) {
+    $stream->setContents('Hello! ;)');
+}); // Copy all files to php_files
+```
+
+#### ```save```
+Saves the stream contents modifications.
+```php
+$stream->setContents('Hello! ;)');
+$stream->save();
 ```
 
 ## Running
