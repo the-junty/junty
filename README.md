@@ -15,7 +15,7 @@ Create a file called ```juntyfile.php``` returning the ```Runner``` instance.
 <?php
 require 'vendor/autoload.php';
 
-use Junty\Runner;
+use Junty\Runner\Runner;
 use Junty\Stream\Stream;
 
 $junty = new Runner();
