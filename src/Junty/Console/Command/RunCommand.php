@@ -8,7 +8,8 @@
  
 namespace Junty\Console\Command;
 
-use Junty\{Task, Runner, RunnerInterface};
+use Junty\Runner\RunnerInterface;
+use Junty\{Task};
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 use Symfony\Component\Console\Output\OutputInterface;
@@ -41,8 +42,17 @@ class RunCommand extends Command
 
             $this->runner->runTask($task);
         } else {
+            $tasks = $this->runner->getTasks();
             $output->writeln('Executing tasks');
-            $this->runner->run();
+            
+            foreach ($tasks as $task) {
+                try {
+                    $output->writeln('Executing task \'' . $task->getName() . '\'');
+                    $this->runner->runTask($task);
+                } catch (\Exception $e) {
+                    $output->writeln('Error on task \'' . $task->getName() . '\': ' . $e->getMessage());
+                }
+            }
         }
 
         $time = round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) * 100) / 100;

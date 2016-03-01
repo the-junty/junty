@@ -47,4 +47,13 @@ class Stream extends GuzzleStream
 
         return parent::getContents();
     }
+
+    public function __toString()
+    {
+        if (null !== $this->contents) {
+            return $this->contents;
+        }
+
+        return parent::__toString();
+    }
 }

@@ -132,7 +132,7 @@ class StreamHandler
      *
      * @return callable
      */
-    public function toDir(string $dest)
+    public function toDir(string $dest) : ToDirPlugin
     {
         return new ToDirPlugin($dest);
     }
@@ -152,7 +152,7 @@ class StreamHandler
         return $this;
     }
 
-    private function recoursiveGlob($pattern, $flags = 0)
+    private function recoursiveGlob($pattern, $flags = 0) : array
     {
         $globs = glob($pattern, $flags);
         $hasDir = false;

@@ -6,9 +6,10 @@
  * @license MIT License
  */
  
-namespace Junty;
+namespace Junty\Runner;
 
-use Junty\{Task, TaskInterface, RunnerInterface};
+use Junty\Runner\RunnerInterface;
+use Junty\{Task, TaskInterface};
 use Junty\Stream\StreamHandler;
 use Junty\Exception\JuntyException;
 
@@ -56,6 +57,16 @@ class Runner implements RunnerInterface
         }
 
         $this->order = $tasks;
+    }
+
+    /**
+     * Returns all registred tasks
+     *
+     * @return array
+     */
+    public function getTasks() : array
+    {
+        return $this->tasks;
     }
 
     /**
