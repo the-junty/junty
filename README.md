@@ -65,6 +65,9 @@ $junty->task(new class() extends AbstractTrask
 ```
 
 ### Stream handling methods
+#### About ```Junty\Stream\Stream```
+```Junty\Stream\Stream``` implements the [PSR-7 Stream Interface (```Psr\Http\Message\StreamInterface```)](http://www.php-fig.org/psr/psr-7/#3-4-psr-http-message-streaminterface).
+
 #### ```src```
 Provides streams by the pattern passed.
 ```php
@@ -143,7 +146,7 @@ Updates the contents of a stream.
 }); // Copy all files to php_files
 ```
 
-#### ```save```
+#### ```Stream::save```
 Saves the stream contents modifications.
 ```php
 $stream->setContents('Hello! ;)');
