@@ -15,10 +15,10 @@ Create a file called ```juntyfile.php``` returning the ```Runner``` instance.
 <?php
 require 'vendor/autoload.php';
 
-use Junty\Runner\Runner;
+use Junty\Runner\JuntyRunner;
 use Junty\Stream\Stream;
 
-$junty = new Runner();
+$junty = new JuntyRunner();
 
 //... tasks
 
@@ -40,9 +40,9 @@ $junty->task('copy_php_files', function () {
 ```
 
 #### ```class```
-Class must implements ```Junty\TaskInterface``` or extends ```Junty\AbstractTask```.
+Class must implements ```Junty\TaskRunner\Task\TaskInterface``` or extends ```Junty\TaskRunner\Task\AbstractTask```.
 ```php
-use Junty\AbstractTask;
+use Junty\TaskRunner\Task\AbstractTask;
 
 $junty->task(new class() extends AbstractTrask
 {
