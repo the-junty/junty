@@ -29,7 +29,7 @@ class Stream extends GuzzleStream
      */
     public function save()
     {
-        $stream = new self(fopen($this->getMetaData('uri', 'w')));
+        $stream = new self(fopen($this->getMetaData('uri'), 'w'));
         $stream->write($this->contents);
         $stream->close();
     }
