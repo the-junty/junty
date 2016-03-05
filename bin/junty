@@ -3,8 +3,8 @@
 <?php
 require 'vendor/autoload.php';
 
-use Junty\Runner\RunnerInterface;
-use Junty\Console\Command\RunCommand;
+use Junty\TaskRunner\Runner\RunnerInterface;
+use Junty\TaskRunner\Console\Command\RunCommand;
 use Symfony\Component\Console\Application;
 use Junty\Exception\JuntyException;
 
