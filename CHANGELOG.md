@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## v0.1.2
+* Added methods ```pipe``` and ```getResource``` to ```Junty\Stream\Stream```.
+
 ## v0.1.1
 * Update on runner:
   * Created [another package](https://packagist.org/packages/junty/junty-taskrunner) for task runner.

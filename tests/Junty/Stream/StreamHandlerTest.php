@@ -11,6 +11,9 @@ namespace Test\Junty\Stream;
 use Junty\Stream\StreamHandler;
 use Psr\Http\Message\StreamInterface;
 
+/**
+ * @coversDefaultClass \Junty\Stream\StreamHandler
+ */
 class StreamHandlerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
@@ -21,10 +24,6 @@ class StreamHandlerTest extends \PHPUnit_Framework_TestCase
             'file.txt' => 'hello world',
             'file.js' => "'use strict';"
         ];
-
-        /*if (is_dir($dir)) {
-            rmdir($dir);
-        }*/
 
         if (!is_dir($dir)) {
             mkdir($dir);
@@ -63,6 +62,10 @@ class StreamHandlerTest extends \PHPUnit_Framework_TestCase
         return rmdir($dir);
     }
 
+    /**
+     * @covers ::src
+     * @covers ::forStreams
+     */
     public function testListingAllFilesFromPattern()
     {
         $tasker = new StreamHandler();
@@ -77,6 +80,10 @@ class StreamHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertContains(__DIR__ . '/test_files/file.php', $_SERVER['STREAMS']);
     }
 
+    /**
+     * @covers ::src
+     * @covers ::forStreams
+     */
     public function testStreamsHandlerReturnsArrayWithStreamInstance()
     {
         $allStream = true;
@@ -94,6 +101,10 @@ class StreamHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($allStream);
     }
 
+    /**
+     * @covers ::src
+     * @covers ::forStream
+     */
     public function testSingleStreamHandlerReturnsInstanceOfStream()
     {
         $isStream = true;
@@ -109,6 +120,11 @@ class StreamHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($isStream);
     }
 
+    /**
+     * @covers ::src
+     * @covers ::toDir
+     * @covers ::end
+     */
     public function testPushingStream()
     {
         if (is_dir($dir = __DIR__ . '/test_files/pushing_test')) {

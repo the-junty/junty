@@ -11,6 +11,9 @@ namespace Test\Junty\Runner;
 use Junty\Runner\JuntyRunner;
 use Junty\Stream\StreamHandler;
 
+/**
+ * @coversDefaultClass \Junty\Runner\JuntyRunner
+ */
 class JuntyRunnerTest extends \PHPUnit_Framework_TestCase
 {
     public function testTaskBindsStreamHandler()

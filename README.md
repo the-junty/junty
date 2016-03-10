@@ -153,6 +153,18 @@ $stream->setContents('Hello! ;)');
 $stream->save();
 ```
 
+#### ```Stream::pipe```
+Pipes a stream to another. It's possible to pass an instance of ```Junty\Stream\Stream``` or a PHP Stream Resource.
+```php
+use Junty\Stream\Stream;
+
+// PHP resource
+$stream->pipe(fopen('destination.txt', 'w+'));
+
+// Stream instance
+$stream->pipe(new Stream(fopen('destination.txt', 'w+')));
+```
+
 ## Running
 ```bash
 $ vendor/bin/junty run
