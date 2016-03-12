@@ -10,13 +10,17 @@
     ],
     "autoload": {
         "psr-4": {
-            "Junty\\": "src/Junty/",
+            "Junty\\": "src/Junty/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Test\\Junty\\": "tests/Junty/"
         }
     },
     "require": {
-        "guzzlehttp/psr7": "^1.2",
         "php": ">=7.0",
+        "guzzlehttp/psr7": "^1.2",
         "junty/junty-taskrunner": "^0.1",
         "junty/junty-plugin": "^0.1",
         "junty/junty-todir": "^0.1"
