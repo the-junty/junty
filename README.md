@@ -165,6 +165,16 @@ $stream->pipe(fopen('destination.txt', 'w+'));
 $stream->pipe(new Stream(fopen('destination.txt', 'w+')));
 ```
 
+### Ordering tasks
+You set the execution order of tasks using the method ```JuntyRunner::order```.
+```php
+// ... tasks
+
+$junty->order('task_2', 'task_1', 'task_4', 'task_3');
+
+return $junty;
+```
+
 ## Running
 ```bash
 $ vendor/bin/junty run
