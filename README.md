@@ -25,10 +25,11 @@ $junty = new JuntyRunner();
 return $junty;
 ```
 
-### Creating a task
+### Creating tasks and groups
+#### Tasks
 Tasks can be created in two ways: ```function``` and a ```class```.
 
-#### ```function```
+##### ```function```
 ```php
 $junty->task('copy_php_files', function () {
     $this->src('*.php')
@@ -39,7 +40,7 @@ $junty->task('copy_php_files', function () {
 });
 ```
 
-#### ```class```
+##### ```class```
 Class must implements ```Junty\TaskRunner\Task\TaskInterface``` or extends ```Junty\TaskRunner\Task\AbstractTask```.
 ```php
 use Junty\TaskRunner\Task\AbstractTask;
@@ -60,6 +61,66 @@ $junty->task(new class() extends AbstractTrask
                 })
                 ->forStreams($this->toDir('php_files'));
         };
+    }
+});
+```
+
+#### Groups
+Same for groups: ```function``` or ```class```.
+
+##### ```function```
+```php
+$junty->group('minify', function () {
+    $this->task('JS', function () {
+        $this->src('./public/js/*.js')
+            ->forStreams(new JsMinify())
+            ->forStreams($this->toDir('./public/dist/js'));
+    }); 
+
+    $this->task('CSS', function () {
+        $this->src('./public/css/*.css')
+            ->forStreams(new CssMinify())
+            ->forStreams($this->toDir('./public/dist/css'));
+    }); 
+});
+```
+
+##### ```class```
+```php
+use Junty\TaskRunner\Task\{Group, TasksCollection};
+
+$junty->group(new class() extends Group
+{
+    public function __construct()
+    {
+    }
+
+    public function task($name, callable $callback = null)
+    {
+    }
+
+    public function getName() : string
+    {
+        return 'minify';
+    }
+
+    public function getTasks() : TasksCollection
+    {
+        $collection = TasksCollection();
+
+        $collection->set('JS', function () {
+            $this->src('./public/js/*.js')
+                ->forStreams(new JsMinify())
+                ->forStreams($this->toDir('./public/dist/js'));
+        });
+
+        $collection->set('CSS', function () {
+            $this->src('./public/css/*.css')
+                ->forStreams(new CssMinify())
+                ->forStreams($this->toDir('./public/dist/css'));
+        });
+
+        return $collection;
     }
 });
 ```
