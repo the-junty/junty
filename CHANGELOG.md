@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## v0.2.0
+* Added groups support.
+
 ## v0.1.2
 * Added methods ```pipe``` and ```getResource``` to ```Junty\Stream\Stream```.
 
