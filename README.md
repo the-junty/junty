@@ -238,7 +238,7 @@ return $junty;
 
 ## Running
 ```bash
-$ vendor/bin/junty run
+$ vendor/bin/junty
 ```
 
 ## Usage exmaple

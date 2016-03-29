@@ -19,5 +19,6 @@ if (!$runner instanceof RunnerInterface) {
 }
 
 $app = new Application();
-$app->add(new RunCommand($runner));
+$app->add($command = new RunCommand($runner));
+$app->setDefaultCommand($command->getName());
 $app->run();
