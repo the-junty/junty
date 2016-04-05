@@ -64,7 +64,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetterForResource()
     {
-        $resource = fopen(__DIR__ . '/test_files_for_stream/file.php', 'r');
+        $resource = fopen('php://temp', 'r');
         $stream = new Stream($resource);
 
         $this->assertEquals($stream->getResource(), $resource);
@@ -78,16 +78,12 @@ class StreamTest extends \PHPUnit_Framework_TestCase
     public function testIfSaveMethodWorksProperly()
     {
         $newContents = 'heeey!';
-        $resource = fopen(__DIR__ . '/test_files_for_stream/file.php', 'r+');
+        $resource = fopen('php://temp', 'r+');
         $stream = new Stream($resource);
         $stream->setContents($newContents);
         $stream->save();
 
         $this->assertEquals($stream->getContents(), $newContents);
-
-        $stream->setContents('<?php');
-        $stream->save();
-        $stream->close();
     }
 
     /**

@@ -109,7 +109,7 @@ class StreamHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $isStream = true;
         $tasker = new StreamHandler();
-        $tasker->src('./test_files/*')
+        $tasker->src(__DIR__ . './test_files/*')
                 ->forStream(function ($stream) use (&$isStream) {
                     if ($isStream) {
                         $isStream = $stream instanceof StreamInterface;
