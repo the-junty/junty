@@ -9,6 +9,33 @@ Streams handling with tasks for **PHP 7**. Inspired by [<img src="https://raw.gi
 * [Usage](https://github.com/the-junty/junty-docs/blob/master/docs/Usage.md)
 * [Plugins](https://github.com/the-junty/junty-docs/blob/master/docs/Plugins.md)
 
+## Example
+```php
+<?php
+require 'vendor/autoload.php';
+
+use Junty\Runner\JuntyRunner;
+use Gabrieljmj\JuntyMinify\{Css as CssMinifier, Js as JsMinifier}; // Package: gabrieljmj/junty-minify
+
+$junty = new JuntyRunner();
+
+$junty->group('minify', function () {
+    $junty->task('css', function () {
+        $this->src('./public/css/*.css')
+            ->forStreams(new CssMinifier())
+            ->forStreams($this->toDir('./public/dist/css')); 
+    });
+
+    $junty->task('js', function () {
+        $this->src('./public/js/*.js')
+            ->forStreams(new JsMinifier())
+            ->forStreams($this->toDir('./public/dist/js')); 
+    });
+});
+
+return $junty;
+```
+
 ## Creator
 | ![@gabrieljmj](https://avatars0.githubusercontent.com/u/2223216?v=3&s=100) |
 | ---      |
