@@ -2,7 +2,8 @@ Changelog
 =========
 
 ## Unreleased
-* Add method ```StreamHandler::temp``` to delete files after ```StreamHandler::end``` execution
+* Added method ```StreamHandler::temp``` to delete files after ```StreamHandler::end``` execution.
+* Added resource for excluding files from ```StreamHandler::src```.
 
 ## v0.2.0
 * Added groups support.
