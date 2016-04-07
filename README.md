@@ -1,8 +1,17 @@
-Junty
-=========
-[![Packagist](https://img.shields.io/packagist/v/junty/junty.svg?style=flat-square)](https://packagist.org/packages/junty/junty) [![Travis](https://img.shields.io/travis/the-junty/junty.svg?style=flat-square)](https://travis-ci.org/the-junty/junty) [![Scrutinizer](https://img.shields.io/scrutinizer/g/the-junty/junty.svg?style=flat-square)](https://scrutinizer-ci.com/g/the-junty/junty/?branch=master) [![GitHub license](https://img.shields.io/github/license/the-junty/junty.svg?style=flat-square)](https://github.com/the-junty/junty/blob/master/LICENSE.md)
+<p align="center">
+<img src="http://i.imgur.com/76sJqop.png">
+</p>
 
-Streams handling with tasks for **PHP 7**. Inspired by [<img src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png" height="30px" align="center" title="Gulp" alt="Gulp">](http://gulpjs.com)
+<p align="center">
+<a href="https://packagist.org/packages/junty/junty"><img src="https://img.shields.io/packagist/v/junty/junty.svg?style=flat-square" title="Packagist" alt="Packagist"></a> 
+<a href="https://travis-ci.org/the-junty/junty"><img src="https://img.shields.io/travis/the-junty/junty.svg?style=flat-square" title="Travis" alt="Travis"></a> 
+<a href="https://scrutinizer-ci.com/g/the-junty/junty/?branch=master"><img src="https://img.shields.io/scrutinizer/g/the-junty/junty.svg?style=flat-square" title="Scrutinizer" alt="Scrutinizer"></a> 
+<a href="https://github.com/the-junty/junty/blob/master/LICENSE.md"><img src="https://img.shields.io/github/license/the-junty/junty.svg?style=flat-square" title="GitHub license" alt="GitHub license"></a>
+</p>
+
+<p align="center">
+Streams handling with tasks for <b>PHP 7</b>. Inspired by <a href="http://gulpjs.com"><img src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png" height="30px" align="center" title="Gulp" alt="Gulp"></a>
+</p>
 
 ## Documentation
 * [Installing](https://github.com/the-junty/junty-docs/blob/master/docs/Installing.md)
