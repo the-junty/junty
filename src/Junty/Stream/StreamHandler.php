@@ -25,7 +25,8 @@ class StreamHandler
     /**
      * Provides streams by the pattern passed
      *
-     * @param string|array $accept
+     * @param string|array      $accept
+     * @param string|array|null $exclude
      *
      * @return self
      */
