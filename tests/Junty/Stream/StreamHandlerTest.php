@@ -137,7 +137,6 @@ class StreamHandlerTest extends \PHPUnit_Framework_TestCase
         $sh = new StreamHandler();
         $sh->src(__DIR__ . '/test_files/*')
                 ->forStream(function ($stream) {
-
                     if ($stream->getContents() === 'hello world') {
                         $this->push($stream);
                     }
@@ -156,5 +155,36 @@ class StreamHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertContains($file, $_streams);
         $this->assertTrue(file_exists($file));
+    }
+
+    /**
+     * @covers ::temp
+     * @covers ::end
+     */
+    public function testTemporaryFileIsDeleteOnExecutionEnd()
+    {
+        $sh = new StreamHandler();
+
+        if (is_dir($dir = __DIR__ . '/temp_dir')) {
+            $this->rmdir($dir);
+        }
+
+        mkdir($dir);
+
+        file_put_contents($tempfileName = __DIR__ . '/temp_dir/tempfile.txt', '');
+        file_put_contents($nottempfileName = __DIR__ . '/temp_dir/nottemp.txt', '');
+
+        $sh->src(__DIR__ . '/temp_dir/*')
+            ->forStream(function ($stream) use ($tempfileName) {
+                if ($stream->getMetaData('uri') === $tempfileName) {
+                    $this->temp($stream);
+                }
+            })
+            ->end();
+
+        $this->assertFalse(file_exists($tempfileName));
+        $this->assertTrue(file_exists($nottempfileName));
+
+        $this->rmdir(__DIR__ . '/temp_dir');
     }
 }

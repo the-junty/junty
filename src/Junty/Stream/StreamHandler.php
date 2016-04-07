@@ -20,6 +20,8 @@ class StreamHandler
 
     private $toPush = [];
 
+    private $temp = [];
+
     /**
      * Provides streams by the pattern passed
      *
@@ -57,7 +59,7 @@ class StreamHandler
      */
     public function forStream($callback) : self
     {
-        $cb = \Closure::bind($this->getPipeCallback($callback), $this);
+        $cb = \Closure::bind($this->getCallback($callback), $this);
 
         if (count($this->toPush)) {
             foreach ($this->toPush as $stream) {
@@ -87,7 +89,7 @@ class StreamHandler
      */
     public function forStreams($callback) : self
     {
-        $cb = \Closure::bind($this->getPipeCallback($callback), $this);
+        $cb = \Closure::bind($this->getCallback($callback), $this);
 
         if (count($this->toPush)) {
             $cb($this->toPush);
@@ -104,7 +106,7 @@ class StreamHandler
         return $this;
     }
 
-    private function getPipeCallback($cb) : callable
+    private function getCallback($cb) : callable
     {
         if (!($cb instanceof PluginInterface) && !is_callable($cb)) {
             throw new \InvalidArgumentException('Invalid callback type: ' + gettype($cb));
@@ -119,10 +121,24 @@ class StreamHandler
 
     /**
      * Pushes a stream to be used on destination
+     *
+     * @param StreamInterface $stream
      */
     public function push(StreamInterface $stream)
     {
         $this->toPush[] = $stream;
+    }
+
+    /**
+     * Creates a temporary stream
+     * It will be deleted in the end of task execution
+     *
+     * @param StreamInterface $stream
+     */
+    public function temp(StreamInterface $stream)
+    {
+        $this->push($stream);
+        $this->temp[] = $stream->getMetadata('uri');
     }
 
     /**
@@ -138,7 +154,7 @@ class StreamHandler
     }
 
     /**
-     * Cleans up pushed streams
+     * Cleans up pushed streams and delete indicated temporary files
      *
      * @return self
      */
@@ -146,6 +162,10 @@ class StreamHandler
     {
         foreach ($this->toPush as $stream) {
             $stream->close();
+        }
+
+        foreach ($this->temp as $tempf) {
+            unlink($tempf);
         }
 
         $this->toPush = [];
