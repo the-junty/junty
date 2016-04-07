@@ -66,18 +66,51 @@ class StreamHandlerTest extends \PHPUnit_Framework_TestCase
      * @covers ::src
      * @covers ::forStreams
      */
-    public function testListingAllFilesFromPattern()
+    public function testListingAllFilesFromSinglePattern()
     {
         $tasker = new StreamHandler();
+        $streams = [];
+
         $tasker->src(__DIR__ . '/test_files/*.php')
-                ->forStreams(function ($streams) {
-                    $_SERVER['STREAMS'] = array_map(function ($stream) {
-                        return $stream->getMetaData('uri');
-                    }, $streams);
+                ->forStream(function ($stream) use (&$streams) {
+                    $streams = $stream->getMetaData('uri');
                 })
             ->end();
 
-        $this->assertContains(__DIR__ . '/test_files/file.php', $_SERVER['STREAMS']);
+        $this->assertContains(__DIR__ . '/test_files/file.php', $streams);
+    }
+
+    /**
+     * @covers ::src
+     */
+    public function testExcludingGlobsByPattern()
+    {
+        $sh = new StreamHandler();
+        $streams = [];
+
+        $sh->src(__DIR__ . '/test_files/*', '/file.txt/')
+            ->forStream(function ($stream) use (&$streams) {
+                $streams[] = $stream->getMetaData('uri');
+            });
+
+        $this->assertContains(__DIR__ . '/test_files/file.php', $streams);
+        $this->assertContains(__DIR__ . '/test_files/file.js', $streams);
+        $this->assertNotContains(__DIR__ . '/test_files/file.txt', $streams);
+    }
+
+    public function testExcludingGlobsByArrayOfPatterns()
+    {
+        $sh = new StreamHandler();
+        $streams = [];
+
+        $sh->src(__DIR__ . '/test_files/*', ['/file.txt/', '/file.php/'])
+            ->forStream(function ($stream) use (&$streams) {
+                $streams[] = $stream->getMetaData('uri');
+            });
+
+        $this->assertNotContains(__DIR__ . '/test_files/file.php', $streams);
+        $this->assertNotContains(__DIR__ . '/test_files/file.txt', $streams);
+        $this->assertContains(__DIR__ . '/test_files/file.js', $streams);
     }
 
     /**

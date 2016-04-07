@@ -29,10 +29,10 @@ class StreamHandler
      *
      * @return self
      */
-    public function src($accept) : self
+    public function src($accept, $exclude = null) : self
     {
-        if (!is_string($accept) && !is_array($accept)) {
-            throw new InvalidArgumentException('You can only pass a string pattern or array with patterns');
+        if ((!is_string($accept) && !is_array($accept)) || ($exclude !== null && !is_string($exclude) && !is_array($exclude))) {
+            throw new \InvalidArgumentException('You can only pass a string pattern or array with patterns');
         }
 
         if (is_array($accept)) {
@@ -45,6 +45,29 @@ class StreamHandler
             $this->globs = call_user_func_array('array_merge', $fileGroups);
         } else {
             $this->globs = $this->recoursiveGlob($accept, GLOB_ERR);
+        }
+
+        if ($exclude !== null) {
+            $cbFilter = function () {return true;};
+
+            if (is_array($exclude) && count($exclude) > 0) {
+                $cbFilter = function ($glob) use ($exclude) {
+                    foreach ($exclude as $pattern) {
+                        if (preg_match($pattern, $glob)) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                };echo 'a';
+            } elseif (is_string($exclude)) {
+                echo 'a';
+                $cbFilter = function ($glob) use ($exclude) {
+                    return !preg_match($exclude, $glob);
+                };
+            }
+
+            $this->globs = array_filter($this->globs, $cbFilter);
         }
 
         return $this;
