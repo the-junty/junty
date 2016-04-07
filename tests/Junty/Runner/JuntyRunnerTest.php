@@ -16,6 +16,10 @@ use Junty\Stream\StreamHandler;
  */
 class JuntyRunnerTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers ::task
+     * @covers ::run
+     */
     public function testTaskBindsStreamHandler()
     {
         $_this = null;
@@ -25,8 +29,6 @@ class JuntyRunnerTest extends \PHPUnit_Framework_TestCase
         $runner->task('task_1', function () use (&$_this) {
             $_this = $this;
         });
-
-        $runner->order('task_1');
 
         $runner->run();
 
