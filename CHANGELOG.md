@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## v0.3.0
 * Added method ```StreamHandler::temp``` to delete files after ```StreamHandler::end``` execution.
 * Added resource for excluding globs from ```StreamHandler::src```.
 
