@@ -22,6 +22,8 @@ class StreamHandler
 
     private $temp = [];
 
+    private $streams = [];
+
     /**
      * Provides streams by the pattern passed
      *
@@ -50,6 +52,10 @@ class StreamHandler
 
         $this->globs = $this->ignoreFiles($globs, $exclude);
 
+        foreach ($this->globs as $glob) {
+            $this->streams[] = new Stream(fopen($glob, 'r+'));
+        }
+
         return $this;
     }
 
@@ -65,18 +71,14 @@ class StreamHandler
         $cb = \Closure::bind($this->getCallback($callback), $this);
 
         if (count($this->toPush)) {
-            foreach ($this->toPush as $stream) {
+            foreach ($this->toPush as &$stream) {
                 $cb($stream);
             }
 
             return $this;
         }
 
-        $streams = array_map(function ($file) {
-            return new Stream(fopen($file, 'r+'));
-        }, $this->globs);
-
-        foreach ($streams as $stream) {
+        foreach ($this->streams as &$stream) {
             $cb($stream);
         }
 
@@ -100,11 +102,7 @@ class StreamHandler
             return $this;
         }
 
-        $streams = array_map(function ($file) {
-            return new Stream(fopen($file, 'r+'));
-        }, $this->globs);
-
-        $cb($streams);
+        $cb($this->streams);
 
         return $this;
     }
@@ -163,9 +161,7 @@ class StreamHandler
      */
     public function end() : self
     {
-        foreach ($this->toPush as $stream) {
-            $stream->close();
-        }
+        $this->closeAll();
 
         foreach ($this->temp as $tempf) {
             unlink($tempf);
@@ -173,6 +169,14 @@ class StreamHandler
 
         $this->toPush = [];
         return $this;
+    }
+
+    /**
+     * Destructor closes all opened streams
+     */
+    public function __destruct()
+    {
+        $this->closeAll();
     }
 
     private function recoursiveGlob($pattern, $flags = 0) : array
@@ -222,10 +226,10 @@ class StreamHandler
      */
     private function ignoreFiles(array $files, $patterns)
     {
-        if ($patterns !== null) {
+        if (null !== $patterns) {
             $cbFilter = function () {return true;};
 
-            if (is_array($patterns) && count($patterns)) {
+            if (is_array($patterns)) {
                 $cbFilter = function ($glob) use ($patterns) {
                     foreach ($patterns as $pattern) {
                         if (preg_match($pattern, $glob)) {
@@ -245,5 +249,19 @@ class StreamHandler
         }
 
         return $files;
+    }
+
+    /**
+     * Closes all opened streams
+     */
+    private function closeAll()
+    {
+        foreach ($this->streams as $stream) {
+            $stream->close();
+        }
+
+        foreach ($this->toPush as $stream) {
+            $stream->close();
+        }
     }
 }
