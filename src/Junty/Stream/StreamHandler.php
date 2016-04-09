@@ -215,8 +215,8 @@ class StreamHandler
     /**
      * Ignore files provided by glob function
      *
-     * @param array        $files
-     * @param array|string $patterns
+     * @param array             $files
+     * @param array|string|null $patterns
      *
      * @return array
      */
