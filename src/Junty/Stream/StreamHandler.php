@@ -43,33 +43,12 @@ class StreamHandler
                 $fileGroups[] = $this->recoursiveGlob($pattern, GLOB_ERR);
             }
 
-            $this->globs = call_user_func_array('array_merge', $fileGroups);
+            $globs = call_user_func_array('array_merge', $fileGroups);
         } else {
-            $this->globs = $this->recoursiveGlob($accept, GLOB_ERR);
+            $globs = $this->recoursiveGlob($accept, GLOB_ERR);
         }
 
-        if ($exclude !== null) {
-            $cbFilter = function () {return true;};
-
-            if (is_array($exclude) && count($exclude) > 0) {
-                $cbFilter = function ($glob) use ($exclude) {
-                    foreach ($exclude as $pattern) {
-                        if (preg_match($pattern, $glob)) {
-                            return false;
-                        }
-                    }
-
-                    return true;
-                };echo 'a';
-            } elseif (is_string($exclude)) {
-                echo 'a';
-                $cbFilter = function ($glob) use ($exclude) {
-                    return !preg_match($exclude, $glob);
-                };
-            }
-
-            $this->globs = array_filter($this->globs, $cbFilter);
-        }
+        $this->globs = $this->ignoreFiles($globs, $exclude);
 
         return $this;
     }
@@ -211,8 +190,19 @@ class StreamHandler
             return $globs;
         }
 
-        foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
-            $globs = array_merge($globs, $this->recoursiveGlob($dir.'/'.basename($pattern), $flags));
+        foreach (
+            glob(
+                dirname($pattern) . DIRECTORY_SEPARATOR . '*',
+                GLOB_ONLYDIR | GLOB_NOSORT
+            )
+            as $dir
+        ) {
+            $globs = array_merge(
+                $globs,
+                $this->recoursiveGlob(
+                    $dir . DIRECTORY_SEPARATOR . basename($pattern), $flags
+                )
+            );
         }
 
         $globs = array_filter($globs, function ($res) {
@@ -220,5 +210,40 @@ class StreamHandler
         });
 
         return $globs;
+    }
+
+    /**
+     * Ignore files provided by glob function
+     *
+     * @param array        $files
+     * @param array|string $patterns
+     *
+     * @return array
+     */
+    private function ignoreFiles(array $files, $patterns)
+    {
+        if ($patterns !== null) {
+            $cbFilter = function () {return true;};
+
+            if (is_array($patterns) && count($patterns)) {
+                $cbFilter = function ($glob) use ($patterns) {
+                    foreach ($patterns as $pattern) {
+                        if (preg_match($pattern, $glob)) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                };
+            } elseif (is_string($patterns)) {
+                $cbFilter = function ($glob) use ($patterns) {
+                    return !preg_match($patterns, $glob);
+                };
+            }
+
+            $files = array_filter($files, $cbFilter);
+        }
+
+        return $files;
     }
 }
