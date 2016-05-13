@@ -107,19 +107,6 @@ class StreamHandler
         return $this;
     }
 
-    private function getCallback($cb) : callable
-    {
-        if (!($cb instanceof PluginInterface) && !is_callable($cb)) {
-            throw new \InvalidArgumentException('Invalid callback type: ' + gettype($cb));
-        }
-
-        if ($cb instanceof PluginInterface) {
-            return $cb->getCallback();
-        }
-
-        return $cb;
-    }
-
     /**
      * Pushes a stream to be used on destination
      *
@@ -179,6 +166,14 @@ class StreamHandler
         $this->closeAll();
     }
 
+    /**
+     * Search for files inside folders and subfolders
+     *
+     * @param string  $pattern
+     * @param integer $flags
+     *
+     * @return array
+     */
     private function recoursiveGlob($pattern, $flags = 0) : array
     {
         $globs = glob($pattern, $flags);
@@ -249,6 +244,26 @@ class StreamHandler
         }
 
         return $files;
+    }
+
+    /**
+     * Returns a plugin callback
+     *
+     * @param PluginInterface|callable $cb
+     *
+     * @return callable
+     */
+    private function getCallback($cb) : callable
+    {
+        if (!($cb instanceof PluginInterface) && !is_callable($cb)) {
+            throw new \InvalidArgumentException('Invalid callback type: ' + gettype($cb));
+        }
+
+        if ($cb instanceof PluginInterface) {
+            return $cb->getCallback();
+        }
+
+        return $cb;
     }
 
     /**
